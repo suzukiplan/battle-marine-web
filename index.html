@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>COSMIC SHOOTER - WEB PLAY</title>
+
+    <script type="text/javascript" src="jsnes.min.js"></script>
+    <script type="text/javascript" src="nes-embed.js"></script>
+    <script type="text/javascript" src="AtsumaruScoreboardsExperimental.js"></script>
+    <script>
+        window.onGameOver = function(score) {
+            console.log("GAME OVER: SCORE=" + score);
+            if (window.RPGAtsumaru) {
+                window.RPGAtsumaru.experimental.scoreboards.setRecord(1, score);
+                setTimeout(function() {
+                    update_ranking_list();
+                    nes_clear_all_buttons();
+                }, 500);
+            }
+        }
+        window.onload = function() {
+            nes_load_url("nes-canvas", "game.png");
+            setup_atsumaru_virtual_pad();
+            update_ranking_list();
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <canvas id="main-canvas" width="640" height="480" style="width: 100%" />
+        <canvas id="nes-canvas" width="256" height="240" />
+    </div>
+</body>
+
+</html>
