@@ -319,10 +319,10 @@ function onAnimationFrame() {
     canvas_main.restore();
     nes.frame();
     if (window.onGameOver) {
-        if (!window.detectGameOver && 0 != nes.cpu.mem[0x02] && 0 < nes.cpu.mem[0x6c] && nes.cpu.mem[0x6c] < 0x30) {
+        if (!window.detectGameOver && wram_check_onStartGameOver()) {
             window.detectGameOver = true;
-            window.onGameOver(10 * (parseInt(nes.cpu.mem[0x66]) + parseInt(nes.cpu.mem[0x67]) * 256 + parseInt(nes.cpu.mem[0x68]) * 65536));
-        } else if (0 == nes.cpu.mem[0x02]) {
+            window.onGameOver(wram_check_getScore());
+        } else if (wram_check_onEndGameOver()) {
             window.detectGameOver = false;
         }
     }
@@ -418,13 +418,23 @@ function nes_load_url(canvas_id, path) {
     var canvas = document.getElementById('main-canvas');
     canvas_main = canvas.getContext("2d");
     canvas.addEventListener('touchend', function(event) {
-        if (window.RPGAtsumaru) {
-            window.RPGAtsumaru.experimental.scoreboards.display(1);
+        var z = 640 / canvas.clientWidth;
+        var x = event.offsetX * z;
+        if (512 <= x && x < 640) {
+            console.log("open leaderboard");
+            if (window.RPGAtsumaru) {
+                window.RPGAtsumaru.experimental.scoreboards.display(1);
+            }
         }
     }, false);
     canvas.addEventListener('click', function(event) {
-        if (window.RPGAtsumaru) {
-            window.RPGAtsumaru.experimental.scoreboards.display(1);
+        var z = 640 / canvas.clientWidth;
+        var x = event.offsetX * z;
+        if (512 <= x && x < 640) {
+            console.log("open leaderboard");
+            if (window.RPGAtsumaru) {
+                window.RPGAtsumaru.experimental.scoreboards.display(1);
+            }
         }
     }, false);
     var req = new XMLHttpRequest();
