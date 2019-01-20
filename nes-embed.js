@@ -418,13 +418,23 @@ function nes_load_url(canvas_id, path) {
     var canvas = document.getElementById('main-canvas');
     canvas_main = canvas.getContext("2d");
     canvas.addEventListener('touchend', function(event) {
-        if (window.RPGAtsumaru) {
-            window.RPGAtsumaru.experimental.scoreboards.display(1);
+        var z = 640 / canvas.clientWidth;
+        var x = event.offsetX * z;
+        if (512 <= x && x < 640) {
+            console.log("open leaderboard");
+            if (window.RPGAtsumaru) {
+                window.RPGAtsumaru.experimental.scoreboards.display(1);
+            }
         }
     }, false);
     canvas.addEventListener('click', function(event) {
-        if (window.RPGAtsumaru) {
-            window.RPGAtsumaru.experimental.scoreboards.display(1);
+        var z = 640 / canvas.clientWidth;
+        var x = event.offsetX * z;
+        if (512 <= x && x < 640) {
+            console.log("open leaderboard");
+            if (window.RPGAtsumaru) {
+                window.RPGAtsumaru.experimental.scoreboards.display(1);
+            }
         }
     }, false);
     var req = new XMLHttpRequest();
